@@ -11,4 +11,6 @@ FROM node:18 AS runner
 WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
-CMD ["node", "dist/main.js"]
+COPY --from=builder /app/package.json /app/yarn.lock ./
+EXPOSE 3000
+CMD ["yarn", "start:prod"]
