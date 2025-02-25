@@ -41,8 +41,8 @@ jobs:
       - name: Construir e enviar a imagem
         run: |
           docker build -t myapp .
-          docker tag myapp mydockerhubusername/myapp:${{ github.sha }}
-          docker push mydockerhubusername/myapp:${{ github.sha }}
+          docker tag myapp adamcr42/api_multi-container:${{ github.sha }}
+          docker push adamcr42/api_multi-container:${{ github.sha }}
 
   deploy:
     needs: docker
@@ -56,7 +56,7 @@ jobs:
           username: ${{ secrets.DIGITALOCEAN_USER }}
           key: ${{ secrets.DIGITALOCEAN_SSH_KEY }}
           script: |
-            docker pull mydockerhubusername/myapp:${{ github.sha }}
+            docker pull adamcr42/api_multi-container:${{ github.sha }}
             docker stop myapp || true
             docker rm myapp || true
-            docker run -d -p 3000:3000 --name myapp mydockerhubusername/myapp:${{ github.sha }}
+            docker run -d -p 3000:3000 --name myapp adamcr42/api_multi-container:${{ github.sha }}
